@@ -9,23 +9,31 @@ var asyncAdd = function(x, y, cb) {
 
 var asyncDivide = function(x, y, cb) {
   setTimeout(() => {
-    // TODO: divide the numbers and handle the case where y is zero (see the tests)
-
-    cb() // this callback needs arguments
+    //  divide the numbers and handle the case where y is zero (see the tests)
+    if (y === 0 ){
+    cb ({ isError: true, message: 'cannot divide by zero' }) // this callback needs arguments
+      }else {
+        return cb(null, x/y)
+        }
   }, 200)
 }
+
+// setTimeout(() => {
 
 var asyncDivideByThenAdd = function(x, y, z, cb) {
   setTimeout(() => {
-    asyncDivide(x, y, (error, division) => {
+    asyncDivide(x, y, function (error, division) {
+          if (error)    {
+             cb(error)// this callback needs arguments
+        }else {
+            cb(null, division + z)
+          }
+// : handle the case where divide returns an error
 
-      // TODO: handle the case where divide returns an error
 
-      cb(null, division + z)
-    })
+})
   }, 200)
 }
-
 module.exports = {
   asyncDivide: asyncDivide,
   asyncDivideByThenAdd: asyncDivideByThenAdd
